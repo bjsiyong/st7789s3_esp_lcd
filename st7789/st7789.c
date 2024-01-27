@@ -2237,7 +2237,9 @@ STATIC mp_obj_t st7789_ST7789_deinit(size_t n_args, const mp_obj_t *args) {
 
     free(self->frame_buffer);
     self->frame_buffer = NULL;
-    self->frame_buffer_size = 0;
+    // bug fix: call : init -> deinit -> init , you will get "Failed to allocate DMA'able framebuffer" error!
+    //self->frame_buffer_size = 0;
+    
 
     esp_lcd_panel_del(self->panel_handle);
     self->panel_handle = NULL;
